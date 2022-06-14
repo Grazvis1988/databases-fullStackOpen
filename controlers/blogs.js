@@ -17,13 +17,27 @@ Router.post('/', async (req, res) => {
   }
 })
 
-Router.delete('/:id', async (req, res) => {
-  const blog = await Blog.findByPk(req.params.id) 
-  if (blog) {
-    await blog.destroy()
+const blogFinder = async (req, res, next) => {
+  req.blog = await Blog.findByPk(req.params.id) 
+  next()
+}
+
+Router.delete('/:id', blogFinder, async (req, res) => {
+  if (req.blog) {
+    await req.blog.destroy()
     res.status(204).end();
   } else {
     res.status(400).end();
+  }
+})
+
+Router.put('/:id', blogFinder, async (req, res) => {
+  if (req.blog && req.body.likes) {
+    req.blog.likes = req.body.likes
+    await req.blog.save()
+    res.status(204).json(req.blog)
+  } else {
+    res.status(400).end()
   }
 })
 
