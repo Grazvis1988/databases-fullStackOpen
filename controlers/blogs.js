@@ -1,5 +1,5 @@
 const Router = require('express').Router()
-const Blog = require('../models/blog')
+const { Blog } = require('../models')
 const middleware = require('../util/middleware')
 
 Router.get('/', async (req, res) => {
