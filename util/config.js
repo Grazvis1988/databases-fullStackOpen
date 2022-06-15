@@ -3,5 +3,6 @@ require('dotenv').config()
 module.exports = {
   DATABASE_URL: process.env.DATABASE_URL,
   PORT: process.env.PORT || 3001,
-  SALT_ROUNDS: process.env.SALT_ROUNDS
+  SALT_ROUNDS: process.env.SALT_ROUNDS,
+  SECRET: process.env.SECRET,
 }

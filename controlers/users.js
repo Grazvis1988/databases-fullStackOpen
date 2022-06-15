@@ -1,10 +1,15 @@
 const Router = require('express').Router()
-const { User } = require('../models')
+const { User, Blog } = require('../models')
 const bcrypt = require('bcrypt')
 const { SALT_ROUNDS } = require('../util/config')
 
 Router.get('/', async (req, res) => {
-  const Users = await User.findAll()
+  const Users = await User.findAll({
+    include: {
+      model: Blog,
+      attributes: ['title', 'id']
+    }
+  })
   console.log(JSON.stringify(Users, null, 2))
   res.status(200).json(Users)
 })
@@ -16,8 +21,7 @@ Router.post('/', async (req, res) => {
        error: "Missing attributes: username, name or password"
     })
   }
-  const salt = bcrypt.genSaltSync(parseInt(SALT_ROUNDS))
-  const passwordHash = bcrypt.hashSync(password, salt)
+  const passwordHash = bcrypt.hashSync(password, parseInt(SALT_ROUNDS))
   const user = await User.create({ name, username, passwordHash })
   res.status(200).json(User)
 })
