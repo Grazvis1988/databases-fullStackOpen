@@ -1,4 +1,4 @@
-const { User, Blog } = require('../models')
+const { Blog } = require('../models')
 const Router = require('express').Router()
 const { fn, col } = require('sequelize')
 

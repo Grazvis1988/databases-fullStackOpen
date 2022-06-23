@@ -23,7 +23,7 @@ Router.post('/', async (req, res) => {
   }
   const passwordHash = bcrypt.hashSync(password, parseInt(SALT_ROUNDS))
   const user = await User.create({ name, username, passwordHash })
-  res.status(200).json(User)
+  res.status(200).json(user)
 })
 
 Router.put('/:username', async (req, res) => {
