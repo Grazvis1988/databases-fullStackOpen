@@ -17,11 +17,15 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false,
         reference: { model: 'blogs', key: 'id' },
+      }, 
+      read: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       }
     })
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.dropTable('blogs')
-    await queryInterface.dropTable('users')
+    await queryInterface.dropTable('reading_list')
   },
 }

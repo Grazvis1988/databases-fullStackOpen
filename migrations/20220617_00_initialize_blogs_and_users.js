@@ -1,4 +1,4 @@
-const { DataTypes, Sequelize } = require('sequelize')
+const { DataTypes } = require('sequelize')
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
@@ -19,7 +19,7 @@ module.exports = {
         },
         allowNull: false
       },
-      passwordHash: {
+      passwordhash: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -52,6 +52,14 @@ module.exports = {
       updated_at: {
         type: DataTypes.DATE,
       }
+    })
+    await queryInterface.addColumn("blogs", "user_id", {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
     })
   },
   down: async ({ context: queryInterface }) => {

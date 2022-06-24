@@ -1,5 +1,5 @@
 const Router = require('express').Router()
-const { User, Blog } = require('../models')
+const { User, Blog, ReadingList } = require('../models')
 const bcrypt = require('bcrypt')
 const { SALT_ROUNDS } = require('../util/config')
 
@@ -7,7 +7,7 @@ Router.get('/', async (req, res) => {
   const Users = await User.findAll({
     include: {
       model: Blog,
-      attributes: ['title', 'id']
+      attributes: ['title', 'id' ]
     }
   })
   console.log(JSON.stringify(Users, null, 2))
@@ -21,8 +21,8 @@ Router.post('/', async (req, res) => {
        error: "Missing attributes: username, name or password"
     })
   }
-  const passwordHash = bcrypt.hashSync(password, parseInt(SALT_ROUNDS))
-  const user = await User.create({ name, username, passwordHash })
+  const passwordhash = bcrypt.hashSync(password, parseInt(SALT_ROUNDS))
+  const user = await User.create({ name, username, passwordhash })
   res.status(200).json(user)
 })
 
@@ -34,6 +34,21 @@ Router.put('/:username', async (req, res) => {
   })
   await user.update({ username: req.body.username })
   await user.save()
+  res.status(200).json(user)
+})
+
+Router.get('/:id', async (req, res) => {
+  const user = await User.findByPk(req.params.id, {
+    attributes: [ 'name', 'username' ] ,
+    include: [{
+      model: Blog,
+      as: 'readings',
+      attributes: { exclude: ['createdAt', 'updatedAt', 'userId'] },
+      through: {
+        attributes: [] 
+      }
+    }]
+  })
   res.status(200).json(user)
 })
 

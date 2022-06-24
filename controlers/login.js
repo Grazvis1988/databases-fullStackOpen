@@ -12,7 +12,7 @@ Router.post('/', async (req, res) => {
     }
   })
 
-  const passwordCorrect = bcrypt.compareSync(password, user.passwordHash)
+  const passwordCorrect = bcrypt.compareSync(password, user.passwordhash)
 
   if(!(user && passwordCorrect)) {
     return res.status(401).json({

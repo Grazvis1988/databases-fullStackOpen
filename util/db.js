@@ -9,6 +9,9 @@ const sequelize = new Sequelize(DATABASE_URL, {
       rejectUnauthorized: false
     }
   },
+  define: {
+    freezeTableName: true
+  }
 })
 
 const migrationsConf = {

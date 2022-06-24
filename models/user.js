@@ -20,15 +20,15 @@ User.init({
     },
     allowNull: false
   },
-  passwordHash: {
+  passwordhash: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+  },
 }, {
   sequelize,
   underscored: true,
-  timestamps: true,
-  modelName: 'user'
+  timestamps: false,
+  modelName: 'users'
 })
 
 module.exports = User
