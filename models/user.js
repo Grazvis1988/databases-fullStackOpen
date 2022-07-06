@@ -24,6 +24,10 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false
   },
+  sessionId: {
+    type: DataTypes.INTEGER,
+    reference: { model: 'sessions', key: 'id' }
+  }
 }, {
   sequelize,
   underscored: true,
